@@ -24,9 +24,9 @@ public class MascotaController {
     private List<Mascota> mascotas = new ArrayList<>();
 
     public MascotaController() {
-        mascotas.add(new Mascota(1, "Bobby", "Perro", 5, "Alejandro"));
-        mascotas.add(new Mascota(2, "Whiskers", "Gato", 3, "Maria"));
-        mascotas.add(new Mascota(3, "Buddy", "Perro", 7, "Juan"));
+        mascotas.add(new Mascota(1, "Bobby", "Perro", 5, "Alejandro", java.time.LocalDate.now()));
+        mascotas.add(new Mascota(2, "Whiskers", "Gato", 3, "Maria", java.time.LocalDate.now()));
+        mascotas.add(new Mascota(3, "Buddy", "Perro", 7, "Juan", java.time.LocalDate.now()));
     }
 
     @GetMapping
