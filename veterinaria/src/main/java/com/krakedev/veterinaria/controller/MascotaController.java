@@ -2,12 +2,15 @@ package com.krakedev.veterinaria.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.krakedev.veterinaria.entity.Mascota;
+
 
 @RestController
 @RequestMapping("/api/mascotas")
@@ -25,6 +28,17 @@ public class MascotaController {
     @GetMapping
     public List<Mascota> getAllMascotas() {
         return mascotas;
+    }
+
+    //Obtener Macota por id
+    // /mascota/2
+    @GetMapping("/{id}")
+    public Mascota obtenerMascotaPorId(@PathVariable("id") int id){
+        Optional<Mascota> mascota = mascotas.stream()
+        .filter(m -> m.getId() == id)
+        .findFirst();
+        
+        return mascota.orElse(null);
     }
 
 }
