@@ -65,6 +65,20 @@ public class MascotaServiceImpl implements MascotaService {
 
     @Override
     @SneakyThrows
+    public Mascota cambiarEstado(Long id, com.krakedev.veterinaria.entity.EstadoMascota estado) {
+        Mascota mascotaExistente = mascotaRepository.findById(id)
+                .orElseThrow(() -> new Exception("Mascota con ID " + id + " no encontrado"));
+        mascotaExistente.setEstado(estado);
+        return mascotaRepository.save(mascotaExistente);
+    }
+
+    @Override
+    public List<Mascota> listarPorEstado(com.krakedev.veterinaria.entity.EstadoMascota estado) {
+        return mascotaRepository.findByEstado(estado);
+    }
+
+    @Override
+    @SneakyThrows
 
     public void eliminarMascota(Long id) {
         mascotaRepository.findById(id)

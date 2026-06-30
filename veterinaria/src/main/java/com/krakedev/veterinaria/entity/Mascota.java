@@ -30,5 +30,8 @@ public class Mascota {
     private String nombreDueno;
     @Column(name = "fecha_registro")
     private LocalDate fechaRegistro;
+    @jakarta.persistence.Enumerated(jakarta.persistence.EnumType.STRING)
+    @Column(name = "estado")
+    private EstadoMascota estado;
 
 }

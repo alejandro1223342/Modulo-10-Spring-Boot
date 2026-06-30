@@ -16,6 +16,8 @@ public interface MascotaService {
     Optional<Mascota> buscarPorId(Long id);
 
     Mascota actualizarMascota(Long id, Mascota mascota);
+    Mascota cambiarEstado(Long id, com.krakedev.veterinaria.entity.EstadoMascota estado);
+    List<Mascota> listarPorEstado(com.krakedev.veterinaria.entity.EstadoMascota estado);
 
     void eliminarMascota(Long id);
 

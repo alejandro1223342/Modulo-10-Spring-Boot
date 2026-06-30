@@ -40,30 +40,60 @@ public class MascotaController {
         return ResponseEntity.ok(mascotas);
     }
 
-    @GetMapping("buscar/nombre/{nombre}")
+    @GetMapping("/buscar/nombre/{nombre}")
     public ResponseEntity<?> buscarPorNombre(@PathVariable("nombre") String nombre) {
         Optional<Mascota> mascota = mascotaService.buscarPorNombre(nombre);
         return mascota.isPresent() ? ResponseEntity.ok(mascota.get())
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mascota no encontrada");
     }
 
-    @GetMapping("buscar/id/{id}")
+    @GetMapping("/buscar/id/{id}")
     public ResponseEntity<?> buscarPorId(@PathVariable("id") Long id) {
         Optional<Mascota> mascota = mascotaService.buscarPorId(id);
         return mascota.isPresent() ? ResponseEntity.ok(mascota.get())
                 : ResponseEntity.status(HttpStatus.NOT_FOUND).body("Mascota no encontrada");
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<?> actualizarMascota(@PathVariable("id") Long id, @RequestBody Mascota mascota) {
-        Mascota mascotaActualizada = mascotaService.actualizarMascota(id, mascota);
-        return ResponseEntity.status(HttpStatus.OK).body(mascotaActualizada);
+        try{
+            Mascota mascotaActualizada = new Mascota();
+            mascotaActualizada.setNombre(mascota.getNombre());
+            mascotaActualizada.setEspecie(mascota.getEspecie());
+            mascotaActualizada.setEdad(mascota.getEdad());
+            mascotaActualizada.setNombreDueno(mascota.getNombreDueno());
+            mascotaActualizada.setFechaRegistro(mascota.getFechaRegistro());
+            
+            Mascota mascotaBBDD = mascotaService.actualizarMascota(id, mascotaActualizada);
+            return ResponseEntity.ok(mascotaBBDD);
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } 
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<?> eliminarMascota(@PathVariable("id") Long id) {
-        mascotaService.eliminarMascota(id);
-        return ResponseEntity.status(200).build();
+        try{
+          mascotaService.eliminarMascota(id);
+          return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch(Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }    
     }
 
+    @PutMapping("/estado/{id}")
+    public ResponseEntity<?> cambiarEstadoMascota(@PathVariable("id") Long id, @org.springframework.web.bind.annotation.RequestBody com.krakedev.veterinaria.entity.EstadoMascota estado) {
+        try {
+            Mascota mascotaBBDD = mascotaService.cambiarEstado(id, estado);
+            return ResponseEntity.ok(mascotaBBDD);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<?> listarPorEstado(@PathVariable("estado") com.krakedev.veterinaria.entity.EstadoMascota estado) {
+        List<Mascota> mascotas = mascotaService.listarPorEstado(estado);
+        return ResponseEntity.ok(mascotas);
+    }
 }
