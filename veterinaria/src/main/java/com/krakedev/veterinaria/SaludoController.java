@@ -1,0 +1,20 @@
+package com.krakedev.veterinaria;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+
+/*
+ * Un controlador REST es una clase en Java que expone rutas HTTP (URLS)
+  para que otros sistemas puedan enviarle
+  peticiones y recibir respuestas en formato JSON.
+*/
+
+@RestController // Indica que esta clase es un controlador REST
+@RequestMapping("/micontroller") // Define la ruta base para todas las rutas en este controlador
+public class SaludoController {
+
+    @GetMapping("/saludo")//Mapea las peticiones GET a /micontroller/saludo
+    public String saludar(){
+        return "Hola mundo desde Spring Boot";
+    }
+}
